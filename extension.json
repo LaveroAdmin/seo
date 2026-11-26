@@ -1,0 +1,63 @@
+{
+    "name": "laveroadmin/seo",
+    "title": {
+        "en": "SEO & Redirects",
+        "ru": "SEO и редиректы"
+    },
+    "description": {
+        "en": "Manage 301/302/410 redirects with hit tracking, robots.txt editor, and global SEO meta tags.",
+        "ru": "Управление 301/302/410 редиректами со счётчиком переходов, редактор robots.txt и глобальные SEO-теги."
+    },
+    "category": "tools",
+    "icon": "icon-search",
+    "version": "1.0.0",
+    "author": {
+        "name": "Aleksandr Kireev",
+        "email": "hello@bespredel.name",
+        "url": "https://bespredel.name"
+    },
+    "github": "https://github.com/LaveroAdmin/seo",
+    "setup": {
+        "commands": [
+            {
+                "cmd": "php artisan migrate",
+                "desc": {
+                    "en": "Create seo_redirects table",
+                    "ru": "Создание таблицы seo_redirects"
+                }
+            },
+            {
+                "cmd": "php artisan admin:import seo",
+                "desc": {
+                    "en": "Import SEO menu items and permissions",
+                    "ru": "Импорт пунктов меню и прав доступа SEO"
+                }
+            }
+        ],
+        "config": {
+            "file": "bootstrap/app.php",
+            "code": "->withMiddleware(function (Middleware $middleware) {\n    $middleware->web(append: [\n        \\LaveroAdmin\\Admin\\Seo\\Middleware\\RedirectMiddleware::class,\n    ]);\n})"
+        },
+        "requirements": {
+            "en": ["PHP >= 8.1"],
+            "ru": ["PHP >= 8.1"]
+        },
+        "notes": {
+            "en": [
+                "Attach \\LaveroAdmin\\Admin\\Seo\\Middleware\\RedirectMiddleware to your web middleware group to handle active redirects automatically.",
+                "Redirects are cached permanently via Cache::rememberForever and refreshed on save/delete."
+            ],
+            "ru": [
+                "Подключите middleware \\LaveroAdmin\\Admin\\Seo\\Middleware\\RedirectMiddleware в группу 'web' для автоматической обработки редиректов.",
+                "Редиректы кэшируются бессрочно через Cache::rememberForever и обновляются при изменении."
+            ]
+        }
+    },
+    "key": "seo",
+    "compatibility": {
+        "php": ">=8.1",
+        "laravel": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+        "admin": "^1.0",
+        "extensions": ["pdo"]
+    }
+}
